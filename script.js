@@ -33,7 +33,7 @@ if (isMobile) {
 const paddleHeight = canvas.height * 0.25;
 const paddleWidth = 8;
 const ballSize = 6;
-const gameSpeed = 4;
+const gameSpeed = 5;
 
 let playerScore = 0;
 let computerScore = 0;
@@ -134,11 +134,11 @@ function updatePlayerInput() {
     player.y = Math.max(0, Math.min(canvas.height - player.height, targetY));
 }
 
-// IA de la Computadora - MUCHO MÁS LENTA
+// IA de la Computadora -
 function updateComputer() {
     const computerCenter = computer.y + computer.height / 2;
     const ballCenter = ball.y;
-    const margin = 20;  // decidi hacerlo un poco mas dificil
+    const margin = 30;  // decidi hacerlo un poco mas dificil
     
     if (computerCenter < ballCenter - margin) {
         computer.y = Math.min(canvas.height - computer.height, computer.y + computer.speed);
