@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000000;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-size: 2.5em;
+    letter-spacing: 3px;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 15px;
+    background: transparent;
+    padding: 10px;
+    border: 2px solid #ffffff;
+}
+
+.score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.score span {
+    color: #ffffff;
+    font-size: 0.9em;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.score p {
+    color: #ffffff;
+    font-size: 2.5em;
+    font-weight: bold;
+    min-width: 60px;
+}
+
+#pongCanvas {
+    background: #000000;
+    border: 3px solid #ffffff;
+    display: block;
+    margin: 10px auto;
+    max-width: 100%;
+    height: auto;
+    touch-action: none;
+}
+
+.instructions {
+    color: #ffffff;
+    font-size: 0.85em;
+    margin-top: 15px;
+    letter-spacing: 1px;
+}
+
+.instructions p {
+    margin: 5px 0;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+    
+    .scoreboard {
+        margin-bottom: 10px;
+        padding: 8px;
+    }
+    
+    .score span {
+        font-size: 0.8em;
+    }
+    
+    .score p {
+        font-size: 1.8em;
+    }
+    
+    .instructions {
+        font-size: 0.75em;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.6em;
+        margin-bottom: 8px;
+    }
+    
+    .scoreboard {
+        margin-bottom: 8px;
+        padding: 5px;
+    }
+    
+    .score span {
+        font-size: 0.7em;
+    }
+    
+    .score p {
+        font-size: 1.5em;
+    }
+    
+    .instructions {
+        font-size: 0.65em;
+    }
+}
