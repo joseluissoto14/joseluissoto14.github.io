@@ -62,54 +62,57 @@ const ball = {
 // Control por teclado
 const keys = {};
 document.addEventListener('keydown', (e) => {
+    console.log('Key pressed:', e.key);
     keys[e.key] = true;
 });
 
 document.addEventListener('keyup', (e) => {
+    console.log('Key released:', e.key);
     keys[e.key] = false;
 });
 
 // Control por ratón
 let mouseY = null;
-let isMouseActive = false;
+let lastMouseMove = 0;
 document.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
     mouseY = e.clientY - rect.top;
-    isMouseActive = true;
-    
-    // Resetear después de 500ms sin movimiento del ratón
-    clearTimeout(mouseTimeout);
-    mouseTimeout = setTimeout(() => {
-        isMouseActive = false;
-        mouseY = null;
-    }, 500);
+    lastMouseMove = Date.now();
 });
-
-let mouseTimeout;
 
 // Control por táctil (para móviles)
 let touchY = null;
-let isTouchActive = false;
+let lastTouchMove = 0;
 document.addEventListener('touchmove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    touchY = e.touches[0].clientY - rect.top;
-    isTouchActive = true;
-    e.preventDefault();
+    if (isMobile) {
+        const rect = canvas.getBoundingClientRect();
+        touchY = e.touches[0].clientY - rect.top;
+        lastTouchMove = Date.now();
+        e.preventDefault();
+    }
 }, { passive: false });
 
 document.addEventListener('touchend', (e) => {
-    isTouchActive = false;
-    touchY = null;
+    if (isMobile) {
+        touchY = null;
+        lastTouchMove = 0;
+    }
 });
 
 // Actualizar posición del jugador
 function updatePlayerInput() {
     let targetY = player.y;
     
-    // Prioridad: táctil > ratón > teclado
-    if (isMobile && isTouchActive && touchY) {
+    const now = Date.now();
+    const mouseInactive = !mouseY || (now - lastMouseMove > 500);
+    const touchInactive = !touchY || (now - lastTouchMove > 500);
+    
+    // Prioridad: táctil (móvil) > ratón (desktop) > teclado
+    if (isMobile && touchY && !touchInactive) {
+        // Móvil: usar toque si está activo
         targetY = touchY - paddleHeight / 2;
-    } else if (!isMobile && isMouseActive && mouseY) {
+    } else if (!isMobile && mouseY && !mouseInactive) {
+        // Desktop: usar ratón si está activo
         targetY = mouseY - paddleHeight / 2;
     } else {
         // Usar teclado (flechas o WASD)
