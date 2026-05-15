@@ -53,7 +53,7 @@ const computer = {
     y: canvas.height / 2 - paddleHeight / 2,
     width: paddleWidth,
     height: paddleHeight,
-    speed: 1.8  // Reducido de 3.5 a 1.8 - ¡Mucho más lento!
+    speed: 4.5  // Buff de 1.8 a 4.5
 };
 
 // Objeto Pelota
@@ -138,7 +138,7 @@ function updatePlayerInput() {
 function updateComputer() {
     const computerCenter = computer.y + computer.height / 2;
     const ballCenter = ball.y;
-    const margin = 80;  // Aumentado de 30 a 80 - El bot reacciona más lentamente
+    const margin = 20;  // decidi hacerlo un poco mas dificil
     
     if (computerCenter < ballCenter - margin) {
         computer.y = Math.min(canvas.height - computer.height, computer.y + computer.speed);
