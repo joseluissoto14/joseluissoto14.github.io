@@ -2,21 +2,28 @@
 const canvas = document.getElementById('pongCanvas');
 const ctx = canvas.getContext('2d');
 
+// Detectar si es móvil
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const controlText = document.getElementById('controlText');
+
 // Ajustar tamaño del canvas según la pantalla
 function resizeCanvas() {
-    const maxWidth = Math.min(window.innerWidth - 40, 800);
-    const maxHeight = window.innerHeight - 250;
-    
-    canvas.width = maxWidth;
-    canvas.height = Math.min(maxHeight, maxWidth * 0.5);
+    if (isMobile) {
+        // En móvil: usar casi todo el ancho y alto disponible
+        canvas.width = Math.max(window.innerWidth - 20, 300);
+        canvas.height = Math.max(window.innerHeight - 180, 300);
+    } else {
+        // En desktop: mantener tamaño estándar
+        const maxWidth = Math.min(window.innerWidth - 40, 800);
+        const maxHeight = window.innerHeight - 250;
+        
+        canvas.width = maxWidth;
+        canvas.height = Math.min(maxHeight, maxWidth * 0.5);
+    }
 }
 
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
-
-// Detectar si es móvil
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-const controlText = document.getElementById('controlText');
 
 if (isMobile) {
     controlText.textContent = '👆 Toca para controlar | Desliza hacia arriba/abajo';
