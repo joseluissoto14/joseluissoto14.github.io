@@ -107,20 +107,19 @@ function updatePlayerInput() {
     const mouseInactive = !mouseY || (now - lastMouseMove > 500);
     const touchInactive = !touchY || (now - lastTouchMove > 500);
     
-    // Prioridad: táctil (móvil) > ratón (desktop) > teclado
-    if (isMobile && touchY && !touchInactive) {
-        // Móvil: usar toque si está activo
-        targetY = touchY - paddleHeight / 2;
-    } else if (!isMobile && mouseY && !mouseInactive) {
-        // Desktop: usar ratón si está activo
-        targetY = mouseY - paddleHeight / 2;
+    // PRIMERO: Verificar teclado (flechas tienen prioridad sobre ratón/toque)
+    if (keys['ArrowUp'] || keys['w'] || keys['W']) {
+        targetY = player.y - player.speed;
+    } else if (keys['ArrowDown'] || keys['s'] || keys['S']) {
+        targetY = player.y + player.speed;
     } else {
-        // Usar teclado (flechas o WASD)
-        if (keys['ArrowUp'] || keys['w'] || keys['W']) {
-            targetY = player.y - player.speed;
-        }
-        if (keys['ArrowDown'] || keys['s'] || keys['S']) {
-            targetY = player.y + player.speed;
+        // SEGUNDO: Si no hay input de teclado, usar ratón o toque
+        if (isMobile && touchY && !touchInactive) {
+            // Móvil: usar toque si está activo
+            targetY = touchY - paddleHeight / 2;
+        } else if (!isMobile && mouseY && !mouseInactive) {
+            // Desktop: usar ratón si está activo
+            targetY = mouseY - paddleHeight / 2;
         }
     }
     
