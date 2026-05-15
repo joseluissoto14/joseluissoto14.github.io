@@ -70,30 +70,49 @@ document.addEventListener('keyup', (e) => {
 });
 
 // Control por ratón
-let mouseY = canvas.height / 2;
+let mouseY = null;
+let isMouseActive = false;
 document.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
     mouseY = e.clientY - rect.top;
+    isMouseActive = true;
+    
+    // Resetear después de 500ms sin movimiento del ratón
+    clearTimeout(mouseTimeout);
+    mouseTimeout = setTimeout(() => {
+        isMouseActive = false;
+        mouseY = null;
+    }, 500);
 });
 
+let mouseTimeout;
+
 // Control por táctil (para móviles)
-let touchY = canvas.height / 2;
+let touchY = null;
+let isTouchActive = false;
 document.addEventListener('touchmove', (e) => {
     const rect = canvas.getBoundingClientRect();
     touchY = e.touches[0].clientY - rect.top;
+    isTouchActive = true;
     e.preventDefault();
 }, { passive: false });
+
+document.addEventListener('touchend', (e) => {
+    isTouchActive = false;
+    touchY = null;
+});
 
 // Actualizar posición del jugador
 function updatePlayerInput() {
     let targetY = player.y;
     
     // Prioridad: táctil > ratón > teclado
-    if (isMobile && touchY) {
+    if (isMobile && isTouchActive && touchY) {
         targetY = touchY - paddleHeight / 2;
-    } else if (mouseY) {
+    } else if (!isMobile && isMouseActive && mouseY) {
         targetY = mouseY - paddleHeight / 2;
     } else {
+        // Usar teclado (flechas o WASD)
         if (keys['ArrowUp'] || keys['w'] || keys['W']) {
             targetY = player.y - player.speed;
         }
